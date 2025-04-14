@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>NetProg Terminal</title>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <span>NetProg Terminal</span>
+        </div>
+        <div class="terminal-body">
+            <div id="output" class="terminal-output"></div>
+            <div class="terminal-input-container">
+                <span class="prompt">></span>
+                <input type="text" id="commandInput" class="terminal-input" placeholder="Enter command..." autofocus>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const outputElement = document.getElementById('output');
+        const commandInput = document.getElementById('commandInput');
+
+        function appendOutput(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            outputElement.appendChild(messageElement);
+            outputElement.scrollTop = outputElement.scrollHeight;
+        }
+
+        function executeCommand(command) {
+            const [cmd, ...args] = command.split(' ');
+            const host = args.join(' ') || 'google.com';
+
+            switch (cmd.toLowerCase()) {
+                case 'latency':
+                    appendOutput(`Measuring latency for ${host}...`);
+                    fetch(`/measure-latency?host=${host}`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(`Latency: ${data.latency} ms`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'packetloss':
+                    appendOutput(`Measuring packet loss for ${host}...`);
+                    fetch(`/measure-packet-loss?host=${host}`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(`Packet Loss: ${data.packet_loss}%`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'networkinfo':
+                    appendOutput('Fetching network information...');
+                    fetch(`/network-info`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(`Hostname: ${data.Hostname}, IP: ${data['IP Address']}, Gateway: ${data.Gateway}, Subnet Mask: ${data['Subnet Mask']}`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'rtt':
+                    appendOutput(`Measuring RTT for ${host}...`);
+                    fetch(`/measure-rtt?host=${host}`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(`RTT: ${data.rtt} ms`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'traceroute':
+                    appendOutput(`Running traceroute for ${host}...`);
+                    fetch(`/traceroute?host=${host}`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(data.traceroute || `Error: ${data.error}`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'dnslookup':
+                    appendOutput(`Performing DNS lookup for ${host}...`);
+                    fetch(`/dns-lookup?host=${host}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.dns_records) {
+                                appendOutput(`DNS Records: ${data.dns_records[0]} - ${data.dns_records[2]?.[0] || 'N/A'}`);
+                            } else {
+                                appendOutput(`No DNS records found for ${host}`);
+                            }
+                        })
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'uptime':
+                    appendOutput('Fetching system uptime...');
+                    fetch(`/system-uptime`)
+                        .then(response => response.json())
+                        .then(data => appendOutput(`System Uptime: ${data.uptime}`))
+                        .catch(err => appendOutput(`Error: ${err.message}`));
+                    break;
+                case 'clear':
+                    outputElement.innerHTML = '';
+                    break;
+                default:
+                    appendOutput(`Unknown command: ${cmd}`);
+            }
+        }
+
+        commandInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const command = commandInput.value.trim();
+                if (command) {
+                    appendOutput(`> ${command}`);
+                    executeCommand(command);
+                    commandInput.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

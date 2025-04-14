@@ -1,0 +1,100 @@
+/* Base Styling */
+body {
+    background-color: #f4f4f9; /* Light background */
+    color: #333; /* Dark text */
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #ffffff; /* Clean white background */
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd; /* Subtle border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #4a90e2; /* Soft blue text */
+    margin-bottom: 20px;
+}
+
+/* Button Container Styling */
+.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px; /* Space between buttons */
+    justify-items: center; /* Center align each button */
+}
+
+button {
+    background: linear-gradient(135deg, #4a90e2, #1c8adb); /* Smooth gradient */
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 160px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #1c8adb, #4a90e2);
+    transform: scale(1.04); /* Slight growth on hover */
+}
+
+button:active {
+    transform: scale(0.97); /* Shrink slightly on click */
+}
+
+/* Input Container Styling */
+.input-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+label {
+    font-size: 16px;
+    color: #555; /* Softer text color */
+}
+
+/* Result Box Styling */
+.result {
+    font-size: 18px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #e9f5ff; /* Light blue background */
+    color: #333;
+    border: 1px solid #d0e7ff; /* Light border */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.result:hover {
+    background: #dff0ff; /* Slightly darker blue on hover */
+}
