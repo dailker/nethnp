@@ -94,6 +94,19 @@
                 case 'clear':
                     outputElement.innerHTML = '';
                     break;
+                case 'help':
+                    appendOutput('Available commands:\n' +
+                        '- latency [host]       : Measure latency to a host\n' +
+                        '- packetloss [host]    : Measure packet loss to a host\n' +
+                        '- networkinfo          : Show network information\n' +
+                        '- rtt [host]           : Measure round-trip time\n' +
+                        '- traceroute [host]    : Perform a traceroute\n' +
+                        '- dnslookup [host]     : Lookup DNS records\n' +
+                        '- uptime               : Show system uptime\n' +
+                        '- clear                : Clear the terminal\n' +
+                        '- help                 : Show this help menu'
+                    );
+                    break;
                 default:
                     appendOutput(`Unknown command: ${cmd}`);
             }
